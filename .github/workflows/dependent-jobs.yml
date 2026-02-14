@@ -1,43 +1,23 @@
-
-name: Workflow 2 - Multi Platform
+name: Workflow 1 - Dependent Jobs
 
 on:
-  pull_request:
+  push:
     branches: [ "master" ]
 
 jobs:
-  ubuntu-job:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: OS info
-        run: uname -a
-      - name: Create and print file
-        run: |
-          echo "Hello from Ubuntu" > info.txt
-          cat info.txt
+      - run: echo "Building..."
 
-  windows-job:
-    runs-on: windows-latest
+  test:
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: OS info
-        run: systeminfo
-      - name: Create and print file
-        run: |
-          echo Hello from Windows > info.txt
-          type info.txt
+      - run: echo "Testing..."
 
-  macos-job:
-    runs-on: macos-latest
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: OS info
-        run: uname -a
-      - name: Create and print file
-        run: |
-          echo "Hello from macOS" > info.txt
-          cat info.txt
+      - run: echo "Deploying..."
