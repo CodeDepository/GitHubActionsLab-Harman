@@ -3,7 +3,7 @@ name: Workflow 2 - Multi Platform
 
 on:
   pull_request:
-    branches: [ "master " ]
+    branches: [ "master" ]
 
 jobs:
   ubuntu-job:
